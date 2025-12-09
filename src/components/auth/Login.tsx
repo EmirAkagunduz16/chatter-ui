@@ -10,11 +10,11 @@ const Login = () => {
     <Auth
       submitLabel="Login"
       onSubmit={(request) => login(request)}
-      error={error ? "Invalid credentials" : ""}
+      error={error}
     >
-      <Link to={"/signup"} style={{ alignSelf: "center" }}>
-        <MUILink>Signup</MUILink>
-      </Link>
+      <MUILink component={Link} to="/signup" style={{ alignSelf: "center" }}>
+        Signup
+      </MUILink>
     </Auth>
   );
 };
