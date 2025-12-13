@@ -1,19 +1,20 @@
 import { Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
-import router from "../Routes";
+import router from "../../Routes";
 
-const Branding = () => {
+const MobileBranding = () => {
   return (
     <>
-      <ForumIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+      <ForumIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
       <Typography
-        variant="h6"
+        variant="h5"
         noWrap
         component="a"
         onClick={() => router.navigate("/")}
         sx={{
           mr: 2,
-          display: { xs: "none", md: "flex" },
+          display: { xs: "flex", md: "none" },
+          flexGrow: 1,
           fontFamily: "monospace",
           fontWeight: 700,
           cursor: "pointer",
@@ -22,10 +23,10 @@ const Branding = () => {
           textDecoration: "none",
         }}
       >
-        CHATTER
+        LOGO
       </Typography>
     </>
   );
 };
 
-export default Branding;
+export default MobileBranding;
