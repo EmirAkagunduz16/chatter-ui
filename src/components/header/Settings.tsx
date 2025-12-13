@@ -8,6 +8,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import useLogout from "../../hooks/useLogout";
 import { onLogout } from "../../utils/logout";
+import { snackVar } from "../../constants/snack";
+import { UNKNOWN_ERROR_SNACK_MESSAGE } from "../../constants/errors";
 
 const Settings = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -48,9 +50,13 @@ const Settings = () => {
         <MenuItem
           key={"logout"}
           onClick={async () => {
-            await logout();
-            onLogout()
-            handleCloseUserMenu();
+            try {
+              await logout();
+              onLogout();
+              handleCloseUserMenu();
+            } catch (error) {
+              snackVar(UNKNOWN_ERROR_SNACK_MESSAGE);
+            }
           }}
         >
           <Typography sx={{ textAlign: "center" }}>Logout</Typography>
