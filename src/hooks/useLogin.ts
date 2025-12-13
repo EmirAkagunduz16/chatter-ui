@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { API_URL } from "../constants/urls";
 import client from "../constants/apollo-client";
+import authenticatedVar from "../constants/authenticated";
 
 interface LoginRequest {
   email: string;
@@ -16,6 +17,7 @@ const useLogin = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(request),
     });
     if (!res.ok) {
@@ -27,6 +29,7 @@ const useLogin = () => {
       return;
     }
     setError("");
+    authenticatedVar(true);
     await client.refetchQueries({ include: "active" });
   };
 
