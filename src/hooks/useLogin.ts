@@ -16,20 +16,17 @@ const useLogin = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify(request),
     });
-
     if (!res.ok) {
       if (res.status === 401) {
-        setError("Invalid credentials");
+        setError("Credentials are not valid.");
       } else {
-        setError("An error occurred. Please try again.");
+        setError("Unknown error occured.");
       }
       return;
     }
     setError("");
-
     await client.refetchQueries({ include: "active" });
   };
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Auth from "./Auth";
 import { Link as MUILink } from "@mui/material";
+import Auth from "./Auth";
 import { useCreateUser } from "../../hooks/useCreateUser";
 import { useState } from "react";
 import { extractErrorMessage } from "../../utils/errors";
@@ -33,13 +33,13 @@ const Signup = () => {
             setError(errorMessage);
             return;
           }
-          setError("An unknown error occurred. Please try again.");
+          setError("Unknown error occured.");
         }
       }}
     >
-      <MUILink component={Link} to="/login" style={{ alignSelf: "center" }}>
-        Login
-      </MUILink>
+      <Link to={"/login"} style={{ alignSelf: "center" }}>
+        <MUILink>Login</MUILink>
+      </Link>
     </Auth>
   );
 };

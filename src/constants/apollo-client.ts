@@ -1,27 +1,23 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
-import { CombinedGraphQLErrors } from "@apollo/client/errors";
 import { ErrorLink } from "@apollo/client/link/error";
-import { Observable } from "rxjs";
 import { API_URL } from "./urls";
 import excludedRoutes from "./excluded-routes";
-import router from "../components/Routes";
+import { onLogout } from "../utils/logout";
+import { GraphQLError } from "graphql";
 
-const logoutLink = new ErrorLink(({ error, operation, forward }) => {
-  if (CombinedGraphQLErrors.is(error)) {
-    const firstError = error.errors[0];
-    if ((firstError.extensions?.originalError as any)?.statusCode === 401) {
+const logoutLink = new ErrorLink((errorResponse: any) => {
+  const { graphQLErrors } = errorResponse;
+
+  if (graphQLErrors && graphQLErrors.length > 0) {
+    const firstError: GraphQLError = graphQLErrors[0];
+    const originalError = firstError.extensions?.originalError as any;
+
+    if (originalError?.statusCode === 401) {
       if (!excludedRoutes.includes(window.location.pathname)) {
-        router.navigate("/login");
+        onLogout();
       }
-      // Boş bir response döndür (data: null)
-      return new Observable((observer) => {
-        observer.next({ data: null });
-        observer.complete();
-      });
     }
   }
-  // Diğer hatalarda zinciri devam ettir
-  return forward ? forward(operation) : undefined;
 });
 
 const httpLink = new HttpLink({

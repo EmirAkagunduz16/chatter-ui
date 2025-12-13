@@ -8,9 +8,16 @@ interface AuthProps {
   onSubmit: (credentials: { email: string; password: string }) => Promise<void>;
   children: React.ReactNode;
   error?: string;
+  loading?: boolean;
 }
 
-const Auth = ({ submitLabel, onSubmit, children, error }: AuthProps) => {
+const Auth = ({
+  submitLabel,
+  onSubmit,
+  children,
+  error,
+  loading,
+}: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { data } = useGetMe();
@@ -53,7 +60,11 @@ const Auth = ({ submitLabel, onSubmit, children, error }: AuthProps) => {
         error={!!error}
         helperText={error}
       />
-      <Button variant="contained" onClick={() => onSubmit({ email, password })}>
+      <Button
+        variant="contained"
+        onClick={() => onSubmit({ email, password })}
+        disabled={!email || !password || loading}
+      >
         {submitLabel}
       </Button>
       {children}
