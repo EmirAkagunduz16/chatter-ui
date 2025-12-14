@@ -3,40 +3,36 @@ import List from "@mui/material/List";
 import ChatListItem from "./chat-list-item/ChatListItem";
 import { Divider, Stack } from "@mui/material";
 import ChatListHeader from "./chat-list-header/ChatListHeader";
+import ChatListAdd from "./chat-list-add/ChatListAdd";
+import { useGetChats } from "../../hooks/useGetChats";
 
 export const ChatList = () => {
+  const [chatListAddVisible, setChatListAddVisible] = React.useState(false);
+  const { data } = useGetChats();
+
   return (
-    <Stack>
-      <ChatListHeader />
-      <Divider />
-      <List
-        sx={{
-          width: "100%",
-          maxWidth: 360,
-          bgcolor: "background.paper",
-          maxHeight: "80vh",
-          overflow: "auto",
-        }}
-      >
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-        <ChatListItem />
-      </List>
-    </Stack>
+    <>
+      <ChatListAdd
+        open={chatListAddVisible}
+        handleClose={() => setChatListAddVisible(false)}
+      />
+      <Stack>
+        <ChatListHeader handleAddChat={() => setChatListAddVisible(true)} />
+        <Divider />
+        <List
+          sx={{
+            width: "100%",
+            maxWidth: 360,
+            bgcolor: "background.paper",
+            maxHeight: "80vh",
+            overflow: "auto",
+          }}
+        >
+          {data?.chats.map((chat) => (
+            <ChatListItem key={chat._id} name={chat.name} />
+          ))}
+        </List>
+      </Stack>
+    </>
   );
 };
