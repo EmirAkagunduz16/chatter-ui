@@ -28,18 +28,20 @@ function App() {
   const { path } = usePath();
   const authenticated = useReactiveVar(authenticatedVar);
 
+  const showChatList = path === "/" || path.includes("chats");
+
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Header />
         <Guard>
-          {path === "/" && authenticated ? (
+          {showChatList && authenticated ? (
             <Grid container>
               <Grid sx={{ md: 3 }}>
                 <ChatList />
               </Grid>
-              <Grid sx={{ md: 9 }}>
+              <Grid sx={{ md: 9, flex: 1, maxWidth: "100%" }}>
                 <Routes />
               </Grid>
             </Grid>
@@ -55,10 +57,9 @@ function App() {
 
 const Routes = () => {
   return (
-    <Container>
+    <Container sx={{ height: "100%" }}>
       <RouterProvider router={router} />
     </Container>
   );
 };
 export default App;
-
