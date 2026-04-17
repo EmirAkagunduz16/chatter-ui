@@ -3,7 +3,7 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import Home from "./home/Home";
 import Chat from "./chat/Chat";
-import Profile from "./profile/profile";
+import Profile from "./profile/Profile";
 
 const router = createBrowserRouter([
   {
