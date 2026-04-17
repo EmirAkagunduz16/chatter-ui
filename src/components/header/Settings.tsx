@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -10,11 +12,13 @@ import useLogout from "../../hooks/useLogout";
 import { onLogout } from "../../utils/logout";
 import { snackVar } from "../../constants/snack";
 import { UNKNOWN_ERROR_SNACK_MESSAGE } from "../../constants/errors";
+import router from "../Routes";
 
 const Settings = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
+    null,
   );
+
   const { logout } = useLogout();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -47,6 +51,14 @@ const Settings = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
+        <MenuItem
+          key={"profile"}
+          onClick={() => {
+            router.navigate("/profile");
+          }}
+        >
+          <Typography textAlign={"center"}>Profile</Typography>
+        </MenuItem>
         <MenuItem
           key={"logout"}
           onClick={async () => {
