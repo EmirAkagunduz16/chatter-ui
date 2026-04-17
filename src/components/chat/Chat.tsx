@@ -64,7 +64,13 @@ const Chat = () => {
           .map((msg) => (
             <Grid container alignItems={"center"} marginBottom={"1rem"}>
               <Grid sx={{ xs: 2, lg: 1 }}>
-                <Avatar src="" sx={{ width: 52, height: 52 }} />
+                <Stack alignItems="center" justifyContent="center">
+                  <Avatar
+                    src={msg.user.imageUrl}
+                    sx={{ width: 52, height: 52 }}
+                  />
+                  <Typography variant="caption">{msg.user.username}</Typography>
+                </Stack>
               </Grid>
               <Grid sx={{ xs: 10, lg: 11 }}>
                 <Stack>
