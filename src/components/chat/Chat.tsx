@@ -16,7 +16,6 @@ import { useCreateMessage } from "../../hooks/useCreateMessage";
 import { useEffect, useRef, useState } from "react";
 import { useGetMessages } from "../../hooks/useGetMessages";
 import { useMessageCreated } from "../../hooks/useMessageCreated";
-import { Message } from "../../gql/graphql";
 
 const Chat = () => {
   const params = useParams();
@@ -24,35 +23,20 @@ const Chat = () => {
   const chatId = params._id!;
   const { data } = useGetChat({ _id: chatId });
   const [createMessage] = useCreateMessage();
-  const { data: existingMessages } = useGetMessages({ chatId });
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { data: messagesData } = useGetMessages({ chatId });
+  useMessageCreated({ chatId });
   const divRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
-  const { data: latestMessage } = useMessageCreated({ chatId });
+
+  const messages = messagesData?.messages || [];
 
   const scrollToBottom = () =>
     divRef.current?.scrollIntoView({ behavior: "smooth" });
 
   useEffect(() => {
-    if (existingMessages) {
-      setMessages(existingMessages.messages);
-    }
-  }, [existingMessages]);
-
-  useEffect(() => {
-    const existingLatestMessage = messages[messages.length - 1]?._id;
-    if (
-      latestMessage?.messageCreated &&
-      existingLatestMessage !== latestMessage.messageCreated._id
-    ) {
-      setMessages([...messages, latestMessage.messageCreated]);
-    }
-  }, [latestMessage, messages.length, messages]);
-
-  useEffect(() => {
     setMessage("");
     scrollToBottom();
-  }, [location, existingMessages]);
+  }, [location, messagesData]);
 
   const handleCreateMessage = async () => {
     await createMessage({
