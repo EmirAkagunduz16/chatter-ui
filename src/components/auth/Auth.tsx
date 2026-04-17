@@ -7,6 +7,7 @@ interface AuthProps {
   submitLabel: string;
   onSubmit: (credentials: { email: string; password: string }) => Promise<void>;
   children: React.ReactNode;
+  extraFields: React.ReactNode[];
   error?: string;
   loading?: boolean;
 }
@@ -15,6 +16,7 @@ const Auth = ({
   submitLabel,
   onSubmit,
   children,
+  extraFields,
   error,
   loading,
 }: AuthProps) => {
@@ -39,6 +41,7 @@ const Auth = ({
         justifyContent: "center",
       }}
     >
+      {extraFields}
       <TextField
         type="email"
         label="email"

@@ -11,6 +11,7 @@ const Login = () => {
       submitLabel="Login"
       onSubmit={(request) => login(request)}
       error={error}
+      extraFields={[]}
     >
       <MUILink component={Link} to="/signup" style={{ alignSelf: "center" }}>
         Signup
